@@ -1,0 +1,44 @@
+parser: babel-eslint
+# parserOptions:
+#   ecmaVersion: 8
+#   sourceType: module
+#   ecmaFeatures:
+#     jsx: true
+env:
+  es6: true
+  react-native/react-native: true
+extends:
+  - "eslint:recommended"
+  - "plugin:react/recommended"
+plugins:
+  - babel
+  - flowtype
+  - react
+  - react-native
+  - jsx-a11y
+rules:
+  no-console: 1
+  semi: 2
+  no-unused-vars: 1
+  consistent-return: 1
+  eqeqeq: 1
+  no-template-curly-in-string: 1
+  no-prototype-builtins: 1
+  no-implied-eval: 2
+  no-invalid-this: 0 # this rule's implementation is currently broken
+  accessor-pairs: 1
+  no-alert: 2
+  no-caller: 2
+  prefer-const: 1
+
+  babel/no-invalid-this: 1
+
+  react/prop-types: 0
+  react/prefer-es6-class: 1
+
+  flowtype/semi: 2
+  flowtype/use-flow-type: 2
+  flowtype/define-flow-type: 2
+
+
+  brace-style: [1, 1tbs, {allowSingleLine: true}]
