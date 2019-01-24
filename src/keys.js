@@ -1,6 +1,6 @@
 // @flow
 
-import type {Component, ComponentType, ElementConfig} from 'react';
+import type {ComponentType, ElementConfig} from 'react';
 import {Navigation} from 'react-native-navigation';
 
 export opaque type ComponentClassKey<-Props> = string;
@@ -25,12 +25,12 @@ export function registerComponent<Props, ScreenType: ComponentType<Props>>(scree
 export opaque type ComponentIntent : {+name: ComponentClassKey<empty>, +passProps: mixed} = {+name: ComponentClassKey<empty>, +passProps: mixed};
 
 export function Intent<Props: {}, Opt>(target: ComponentClassKey<Props>, props: Props, opts?: Opt):
-        ComponentIntent & {+options?: Opt}{
-    return {
+        {|+ component: ComponentIntent & {+options?: Opt} |} {
+    return {component: {
         name: target,
         passProps: props,
         options: opts
-    };
+    }};
 }
 
 export opaque type ButtonId = string;

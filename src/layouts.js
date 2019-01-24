@@ -59,7 +59,7 @@ export function pushStackLayout(self: ComponentId, layout: Layout){
     Navigation.push(self, layout);
 }
 export function pushStackScreen<Props:{}>(self: ComponentId, target: ComponentClassKey<Props>, props: Props){
-    pushStackLayout(self, {component: Intent(target,props)});
+    pushStackLayout(self, Intent(target,props));
 }
 export function popStack(self: ComponentId){
     Navigation.pop(self);
@@ -76,7 +76,7 @@ export function pushModalLayout(layout: Layout){
     Navigation.showModal(layout);
 }
 export function pushModalScreen<Props:{}>(target: ComponentClassKey<Props>, props: Props){
-    pushModalLayout({component: Intent(target,props)});
+    pushModalLayout(Intent(target,props));
 }
 
 export function popModal(self: ComponentId){
