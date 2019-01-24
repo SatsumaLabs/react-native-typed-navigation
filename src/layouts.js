@@ -7,45 +7,45 @@ import {Navigation} from 'react-native-navigation';
 
 export type LayoutComponent = {| +component: ComponentIntent & {+options?: Options | void}|};
 
-export type LayoutStack = {| +stack: {
+export type LayoutStack = {| +stack: {|
     +id?:  StaticComponentId,
     +children: Layout[],
     +options?: Options | void
-}|};
+|}|};
 
-export type LayoutBottomTabs = {| +bottomTabs:{
+export type LayoutBottomTabs = {| +bottomTabs:{|
     +id?:  StaticComponentId,
     +children: Layout[],
     +options?: Options
-}|};
+|}|};
 
-export type LayoutTopTabs = {| +topTabs:{
+export type LayoutTopTabs = {| +topTabs:{|
     +id?:  StaticComponentId,
     +children: Layout[],
     +options?: Options
-}|};
+|}|};
 
-export type LayoutSideMenu = {| +sideMenu: {
+export type LayoutSideMenu = {| +sideMenu: {|
     +id?:  StaticComponentId,
     +left?: LayoutComponent,
     +center: Layout,
     +right?: LayoutComponent,
     +options?: Options,
-}|};
+|}|};
 
-export type LayoutSplitView = {| +splitView:{
+export type LayoutSplitView = {| +splitView:{|
     +id?:  StaticComponentId,
     +master: Layout,
     +detail: Layout,
     +options?: OptionsSplitView;
-}|};
+|}|};
 
-export type LayoutExternalComponent = {| +externalComponent: {
+export type LayoutExternalComponent = {| +externalComponent: {|
   +id?: StaticComponentId,
   +name: ExternalComponentKey;
   +options?: Options;
   +passProps?: {};
-}|};
+|}|};
 
 export type Layout = LayoutComponent | LayoutStack | LayoutBottomTabs | LayoutTopTabs | LayoutSideMenu | LayoutSplitView | LayoutExternalComponent;
 

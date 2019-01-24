@@ -12,36 +12,36 @@ type FontFamily = string;
 type AndroidDensityNumber = number;
 type ImageRequireSource = number;
 
-type Insets = {
+type Insets = {|
     top?: number;
     left?: number;
     bottom?: number;
     right?: number;
-};
+|};
 type SystemItemIcon =
     'done' | 'cancel' | 'edit' | 'save' | 'add' | 'flexibleSpace' | 'fixedSpace' | 'compose' | 'reply' | 'action' |
     'organize' | 'bookmarks' | 'search' | 'refresh' | 'stop' | 'camera' | 'trash' | 'play' | 'pause' | 'rewind' | 'fastForward' | 'undo' | 'redo';
 
-export type OptionsSplitView = {
+export type OptionsSplitView = {|
     +displayMode?: 'auto' | 'visible' | 'hidden' | 'overlay', //Master view display mode
     +primaryEdge?: 'leading' | 'trailing', // Master view side. Leading is left. Trailing is right.
     +minWidth?: number, //Set the minimum width of master view
     +maxWidth?: number, //Set the maximum width of master view
-};
+|};
 
-export type OptionsStatusBar = {
+export type OptionsStatusBar = {|
     +visible?: boolean, //Set the status bar visibility (default true)
     +style?: 'light' | 'dark', //Set the text color of the status bar (default 'light')
     +backgroundColor?: Color, //Set the background color of the status bar (Android specific)
     +drawBehind?: boolean, //Draw screen behind the status bar (Android specific)
-};
+|};
 
-export type OptionsLayout = {
+export type OptionsLayout = {|
     +backgroundColor?: Color, //Set the screen background color
     +componentBackgroundColor?: Color, //Set background color only for components, helps reduce overdraw if background color is set in default options. (Android specific)
     +orientation?: ('portrait' | 'landscape')[], //Set the allowed orientations
     +topMargin?: number, //Layout top margin (Android specific)
-};
+|};
 
 export type OptionsModalPresentationStyle =
     'formSheet' |
@@ -59,14 +59,14 @@ export type OptionsModalTransitionStyle =
     'flipHorizontal' |
     'partialCurl';
 
-export type OptionsTopBarLargeTitle = {
+export type OptionsTopBarLargeTitle = {|
     +visible?: boolean; //Enable large titles
     +fontSize?: number;
     +color?: Color;
     +fontFamily?: FontFamily;
-};
+|};
 
-export type OptionsTopBarTitle = {
+export type OptionsTopBarTitle = {|
     +text?: string; //Text to display in the title area
     +fontSize?: number;
     +color?: Color;
@@ -75,34 +75,34 @@ export type OptionsTopBarTitle = {
     +component?: ComponentIntent,
     +height?: number; //Top Bar title height in densitiy pixels (Android specific)
     +alignment?: 'center' | 'fill'; //Title alignment (Android specific)
-};
+|};
 
-export type OptionsTopBarSubtitle = {
+export type OptionsTopBarSubtitle = {|
     +text?: string;
     +fontSize?: number;
     +color?: Color;
     +fontFamily?: FontFamily;
     +alignment?: 'center';
-};
+|};
 
-export type OptionsTopBarBackButton = {
+export type OptionsTopBarBackButton = {|
     +icon?: ImageRequireSource; //Image to show as the back button
     +visible?: boolean; //Whether the back button is visible or not (default true)
     +title?: string; //Set the back button title (iOS specific)
     +showTitle?: boolean; //Show title or just the icon (iOS specific)
     +color?: Color; //Back button icon and text color
-};
+|};
 
-export type OptionsTopBarBackground = {
+export type OptionsTopBarBackground = {|
     +color?: Color; //Background color of the top bar
     +component?: //Set a custom component for the Top Bar background
-        {+name?: ComponentClassKey<{||}>;};
+        {|+name?: ComponentClassKey<{||}>;|};
     +clipToBounds?: boolean; //Clip the top bar background to bounds if set to true. (iOS specific)
     +translucent?: boolean; //Allows the NavBar to be translucent (blurred) (iOS specific)
     +blur?: boolean; //Enable background blur (iOS specific)
-};
+|};
 
-export type ButtonDef = {
+export type ButtonDef = {|
     +id: ButtonId; //Button id for reference press event
     +enabled?: boolean; //Set the button enabled or disabled (default true)
 
@@ -118,9 +118,9 @@ export type ButtonDef = {
     +disabledColor?: Color; //Set text color in disabled state
     +fontFamily?: string; //Set the button font family
     +testID?: string; //Set testID for reference in E2E tests
-};
+|};
 
-export type OptionsTopBar = {
+export type OptionsTopBar = {|
     +visible?: boolean; //Show or hide the top bar
     +animate?: boolean; //Controls whether TopBar visibility changes should be animated
     +hideOnScroll?: boolean; //Top bar will hide and show based on users scroll direction
@@ -146,9 +146,9 @@ export type OptionsTopBar = {
     +borderColor?: Color; //Change the navbar border color (Android specific)
     +borderHeight?: AndroidDensityNumber; //Set the border height of the navbar in dp (Android specific)
     +elevation?: AndroidDensityNumber; //Set the elevation of the navbar in dp (Android specific)
-};
+|};
 
-export type OptionsFab = {
+export type OptionsFab = {|
     +id: ButtonKey;
     +backgroundColor?: Color;
     +clickColor?: Color;
@@ -161,9 +161,9 @@ export type OptionsFab = {
     +hideOnScroll?: boolean;
     +size?: number;
     +actions?: OptionsFab[];
-};
+|};
 
-export type OptionsBottomTabs = {
+export type OptionsBottomTabs = {|
     +visible?: boolean; //Show or hide the bottom tabs
     +animate?: boolean; //Enable animations when toggling visibility
     +currentTabIndex?: number; //Switch to another screen within the bottom tabs via index (starting from 0)
@@ -176,9 +176,9 @@ export type OptionsBottomTabs = {
     +hideShadow?: boolean; //Hide the top line of the Tab Bar (iOS specific)
     +titleDisplayMode?: 'alwaysShow' | 'showWhenActive' | 'alwaysHide'; //Control the text display mode below the tab icon  (Android specific)
     +elevation?: AndroidDensityNumber; //Set the elevation of the Bottom Tabs in dp (Android specific)
-};
+|};
 
-export type OptionsBottomTab = {
+export type OptionsBottomTab = {|
     +text?: string; //Set the text to display below the icon
     +badge?: string; //Set the text in a badge that is overlayed over the component
     +testID?: string; //Set a testID to reference the tab in E2E tests
@@ -197,48 +197,48 @@ export type OptionsBottomTab = {
     +disableIconTint?: boolean; //Set true if you want to disable the icon tinting (iOS specific)
     +disableSelectedIconTint?: boolean; //Set true if you want to disable the text tinting (iOS specific)
     +selectedFontSize?: number; //Set the font size for selected tabs (Android specific)
-};
+|};
 
-export type OptionsSideMenu = {
-    +left?: { //Configure the left side menu
+export type OptionsSideMenu = {|
+    +left?: {| //Configure the left side menu
         +visible?: boolean;
         +enabled?: boolean;
-    };
-    +right?: { //Configure the right side menu
+    |};
+    +right?: {| //Configure the right side menu
         +visible?: boolean;
         +enabled?: boolean;
-    };
+    |};
     +openGestureMode?: 'entireScreen' | 'bezel'; //Configure how a user is allowed to open a drawer using gestures (iOS specific)
-};
+|};
 
-export type OptionsOverlay = {
+export type OptionsOverlay = {|
     +interceptTouchOutside?: boolean; //Capture touches outside of the Component View
-};
+|};
 
-export type OptionsPreviewAction = {
+export type OptionsPreviewAction = {|
     +id: string; //Reference ID to get callbacks from
     +title: string; //Action text
     +style?: 'default' | 'selected' | 'destructive';  //Action style
     +actions?: OptionsPreviewAction[]; //Subactions that will be shown when this action is pressed.
-};
+|};
 
-export type OptionsPreview = {
+export type OptionsPreview = {|
     +reactTag?: number; //Pass a react node tag to mark a SourceRect for a specific peek and pop preview element.
     +width?: number; //You can set this property specify the width of the preview. If the width is greater than the device width, it will be zoomed in.
     +height?: 100; //Height of the preview
     +commit?: boolean; //You can control if the users gesture will result in pushing the preview screen into the stack.
     +actions?: OptionsPreviewAction[]; //List of actions that will appear underneath the preview window. They can be nested for sub actions.
-};
+|};
 
-export type OptionsAnimationPropertyConfig = {
+export type OptionsAnimationPropertyConfig = {|
     +from?: number; //Animate from this value, ex. 0
     +to?: number; //Animate to this value, ex. 1
     +duration?: number; //Animation duration (default 300)
     +startDelay?: number; //Animation delay
     +interpolation?: 'accelerate' | 'decelerate' | void; //Animation interplation
-};
+|};
 
-export type OptionsAnimationProperties = {
+export type OptionsAnimationProperties = {|
     +x?: OptionsAnimationPropertyConfig; //Animate the element over translateX
     +y?: OptionsAnimationPropertyConfig; //Animate the element over translateY
     +alpha?: OptionsAnimationPropertyConfig; //Animate the element over opacity
@@ -247,37 +247,37 @@ export type OptionsAnimationProperties = {
     +rotationX?: OptionsAnimationPropertyConfig; //Animate the element over rotationX
     +rotationY?: OptionsAnimationPropertyConfig; //Animate the element over rotationY
     +rotation?: OptionsAnimationPropertyConfig; //Animate the element over rotation
-};
+|};
 
-export type OptionsAnimationSeparate = {
+export type OptionsAnimationSeparate = {|
     +topBar?: OptionsAnimationProperties; //Configure animations for the top bar
     +bottomTabs?: OptionsAnimationProperties; //Configure animations for the bottom tabs
     +content?: OptionsAnimationProperties; //Configure animations for the content (Screen)
-};
+|};
 
-export type OptionsAnimations = {
+export type OptionsAnimations = {|
     +setRoot?: OptionsAnimationProperties; //Configure the setRoot animation
     +push?: OptionsAnimationSeparate; //Configure what animates when a screen is pushed
     +pop?: OptionsAnimationSeparate; //Configure what animates when a screen is popped
     +showModal?: OptionsAnimationProperties; //Configure what animates when modal is shown
     +dismissModal?: OptionsAnimationProperties; //Configure what animates when modal is dismissed
-};
+|};
 
-export type OptionsCustomTransition = {
+export type OptionsCustomTransition = {|
     +animations: OptionsCustomTransitionAnimation[];
     +duration?: number;
-};
+|};
 
-export type OptionsCustomTransitionAnimation = {
-  +type: 'sharedElement'; //Animation type, only support sharedElement currently
+export type OptionsCustomTransitionAnimation = {|
+  type: 'sharedElement'; //Animation type, only support sharedElement currently
   +fromId: SharedElementKey; //Transition from element Id
   +toId: SharedElementKey; //Transition to element Id
   +startDelay?: number; //Animation delay
   +springVelocity?: number; //Animation spring Velocity
   +duration?: number; //Animation duration
-};
+|};
 
-export type Options = {
+export type Options = {|
   +statusBar?: OptionsStatusBar; //Configure the status bar
   +layout?: OptionsLayout; //Configure the layout
   +modalPresentationStyle?: OptionsModalPresentationStyle; //Configure the presentation style of the modal
@@ -296,7 +296,7 @@ export type Options = {
   +backgroundImage?: ImageRequireSource; //Background image for the screen (iOS specific)
   +rootBackgroundImage?: ImageRequireSource; //Background image for the Navigation View (iOS specific)
   +blurOnUnmount?: boolean; //Enable or disable automatically blurring focused input, dismissing keyboard on unmount (Android specific)
-};
+|};
 
 export function SharedElement(props: {+elementId: SharedElementKey, +children: Element<any>}){
     return <Navigation.Element {...props} />;
@@ -312,7 +312,7 @@ export function setDefaultOptions(defOpts: Options){
 
 // Common options
 
-export function titleBar (title: string, options: OptionsTopBar = {}) {
+export function titleBar (title: string, options?: OptionsTopBar) {
     return {topBar: {...options, title: {text: title}}};
 }
 export const noShadow = {elevation: 0};
