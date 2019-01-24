@@ -4,7 +4,7 @@ import React, {type Element} from 'react';
 import type {ComponentId, ComponentIntent, ComponentClassKey, ButtonId, SharedElementKey} from './keys';
 import {ButtonKey} from './keys';
 import {Navigation} from 'react-native-navigation';
-import hamburgerIcon from '../icons/menu_white_24.png';
+import hamburgerIcon from '../icons/menu_24.png';
 import closeIcon from '../icons/close_24.png';
 
 type Color = string;
