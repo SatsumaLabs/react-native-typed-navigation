@@ -24,8 +24,8 @@ export function registerComponent<Props, ScreenType: ComponentType<Props>>(scree
 // the correct type is forall p. {+name: : ComponentClassKey<p>, +passProps: p}
 export opaque type ComponentIntent : {+name: ComponentClassKey<empty>, +passProps: mixed} = {+name: ComponentClassKey<empty>, +passProps: mixed};
 
-export function makeIntent<Props: {}, Opt>(target: ComponentClassKey<Props>, props: Props, opts: Opt):
-        ComponentIntent & {+options: Opt}{
+export function Intent<Props: {}, Opt>(target: ComponentClassKey<Props>, props: Props, opts?: Opt):
+        ComponentIntent & {+options?: Opt}{
     return {
         name: target,
         passProps: props,
@@ -33,11 +33,14 @@ export function makeIntent<Props: {}, Opt>(target: ComponentClassKey<Props>, pro
     };
 }
 
-export opaque type ButtonKey = string;
+export opaque type ButtonId = string;
 var buttonKeyCounter : number = 0;
 
-export function makeButtonKey(name?: string): ButtonKey {
+export function ButtonKey(name?: string): ButtonId {
     buttonKeyCounter++;
     const tag = "btn-" + buttonKeyCounter + "-" + (name || "");
     return tag;
 }
+
+export type ExternalComponentKey = string;
+export type SharedElementKey = string;
