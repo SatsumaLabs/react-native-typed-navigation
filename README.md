@@ -142,7 +142,6 @@ bindDeepLinks: (string => mixed) => CancelBind;
 // (which might be multiple times as a js enviornment can be re-used if the previous run was closed with the back button).
 // The initialization routine should call setRootLayout(), either immediately of upon the result of a Promise.
 runNavigationApp: (?Options, () => mixed) => void;
-
 ```
 
 ### Options helpers
@@ -163,7 +162,7 @@ leftMenuButton: (?Color) => TopBarOptions;
 hamburgerMenuBtn: ButtonKey;
 
 // Replaces the set of right topBar buttons for the given component.
-setRightButtons: (ComponentId,  ButtonDef[]) => void{
+setRightButtons: (ComponentId,  ButtonDef[]) => void;
 
 // Gives the back button a close icon.
 // Recommended on screens where exiting them might discard unsaved data.
@@ -171,5 +170,4 @@ closeBackButton: OptionsTopBar
 
 // Semitransparent background and fade-in animation for a lighegox-style modal dialog
 modalLightBox: Options;
-
 ```
