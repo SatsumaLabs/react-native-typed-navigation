@@ -9,7 +9,7 @@ Keys and Intents
 The biggest difference from the original API is the signature of `registerComponent`. In the original version, it takes a string key and a component generator, and the provided key is then used to refer to the component later.
 This was refactored so that it takes a component and returns a unique key (whose representation contains the component's name for debugging purposes) of an opaque type tagged the type of props the component requires, giving it a type equivalent (as the following is only valid in flow ≥0.89) to
 
-```js
+```ts
 registerComponent: <Props>(AbstractComponent<{...Props, componentId: CommponentId}>) => ComponentClassKey<Props>
 ```
 
@@ -24,7 +24,7 @@ Function reference
 
 ### Keys
 
-```flow
+```ts
 // Certifies a given string as being a ComponentId which can be used in layouts.
 makeStaticComponentId: string => StaticComponentId;
 
@@ -46,7 +46,7 @@ ButtonKey: ?string => ButtonId;
 
 ### Options
 
-```jsx
+```ts
 // Options type as described in the the react-native-navigation docs.
 //All key and intent fields require their correct types from the above section.
 type Options = {|...|};
@@ -60,7 +60,7 @@ setDefaultOptions: Options => void;
 
 ### Layouts
 
-```jsx
+```ts
 // Navigation layouts as described by the react-native-navigation docs.
 // The return value on Intent() is a subtype of this type.
 type Layout = {|...|};
@@ -117,7 +117,7 @@ closeLeftMenu: ComponentId => void;
 
 ### Events
 
-```jsx
+```ts
 type CancelBind = () => void
 
 // Ainds component-specific events (appearance, disappearance, buttons) to methods on a specific component.
@@ -136,7 +136,7 @@ bindDeepLinks: (string => mixed) => CancelBind;
 
 ### Entry point
 
-```jsx
+```ts
 // The main entry point for your app.
 // Takes default layout options as well as an initialization routine which is called each time the app starts
 // (which might be multiple times as a js enviornment can be re-used if the previous run was closed with the back button).
@@ -148,7 +148,7 @@ runNavigationApp: (?Options, () => mixed) => void;
 
 A number of objects are included representing commonly-used sets of `Options`, which can be combined using spread syntax.
 
-```jsx
+```ts
 // Configures a top bar with a given title and possibly additional options
 titleBar: (title: string, options?: OptionsTopBar) => Options;
 
