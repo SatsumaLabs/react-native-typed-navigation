@@ -1,7 +1,7 @@
 react-native-typed-navigation
 =============================
 
-This package provides [flow](https://flow.org/) integration for [react-native-navigation](https://github.com/wix/react-native-navigation) as well as some helpers for common configurations. A wrapper approach (as opposed a `flow-typed` definition compiled from typescript) was chosen as by refactoring the API, it was possible to take advantage of flow's opaque types and variance, providing additional type safety not possible with the original API. The main motivation of this was to have type-checking between a component key and its props when creating a `Layout` to display, similar to what `React.createElement` does.
+This package provides [flow](https://flow.org/) integration for [react-native-navigation](https://github.com/wix/react-native-navigation) as well as some helpers for common options and deep linking support. A wrapper approach (as opposed a `flow-typed` definition compiled from typescript) was chosen as by refactoring the API, it was possible to take advantage of flow's opaque types and variance, providing additional type safety not possible with the original API. The main motivation of this was to have type-checking between a component key and its props when creating a `Layout` to display, similar to what `React.createElement` does.
 
 Keys and Intents
 ----------------
@@ -22,70 +22,154 @@ Top bar buttons IDs use the opaque type `ButtonId`, values is uniquely generated
 Function reference
 ------------------
 
+### Keys
+
 ```flow
+// Certifies a given string as being a ComponentId which can be used in layouts.
 makeStaticComponentId: string => StaticComponentId;
 
+// Registers a component for use in navigation layouts and returns its key
 registerComponent: <Props>(AbstractComponent<{...Props, componentId: CommponentId}>) => ComponentClassKey<Props>;
 
+// Applies a component key to props and to create a Layout containing an intent
+// This Layout can be used directly or its component field can be used in options which require a raw ComponentIntent.
 Intent: <Props>(target: ComponentClassKey<Props>, props: Props, opts?: Options) =>
     {|+ component: ComponentIntent & {
         +name: ComponentClassKey<empty>,
         +passProps: mixed,
-        +options?: Opt}
+        +options?: Options}
     |};
 
-ButtonKey: string => ButtonId;
+// Generates a unique ButtonId. The parameter is for debugging purposes only, like Symbol().
+ButtonKey: ?string => ButtonId;
+```
 
+### Options
 
+```flow
+// Options type as described in the the react-native-navigation docs.
+//All key and intent fields require their correct types from the above section.
+type Options = {|...|};
+
+// Merges Options into the specified component's navigation layout.
 mergeOptions: (ComponentId, Options) => void;
 
+// Sets default Options. This is usually not needed since it is called by runNavigationApp().
 setDefaultOptions: Options => void;
+```
 
+### Layouts
 
+```flow
+// Navigation layouts as described by the react-native-navigation docs.
+// The return value on Intent() is a subtype of this type.
+type Layout = {|...|};
+
+// Completely replace the root Layout tree.
+// Call this in your initialization routine passed to runNavigationApp().
 setRootLayout: Layout => void;
 
+// Pushes a layout top the front of a stack layout.
+// The ComponentId parameter may be of the stack of one of its children (such as the screen you're navigating from)
 pushStackLayout: (ComponentId, Layout) => void;
 
+// Pushes a single component layout (defined by a key and props) to a stack layout.
 pushStackScreen: <Props>(ComponentId, ComponentClassKey<Props>, Props) => void;
 
+// Removes a component from the stack layout it belongs to.
 popStack: ComponentId => void;
 
+// Empties a stack layout of children leaving only its root layout.
 clearStack: ComponentId => void;
 
+// Replaces all children of a stack layout including the root.
 replaceStack: (ComponentId, Layout[]) => void;
 
 
+// Pushes a layout as a modal, which covers the root layout entirely.
+// Background may be transparent, making this useful for scrimmed dialogs.
 pushModalLayout: Layout => void;
 
+// Push a component as a modal by key and props.
 pushModalScreen: <Props>(ComponentClassKey<Props>, Props) => void;
 
+// Remove a component which is currently a modal.
 popModal: ComponentId => void;
 
-clearModals: () => void
+// Remove all modals.
+clearModals: () => void;
 
 
-pushOverlay: (LayoutComponent | LayoutExternalComponent) => void
+// Pushes a layout as an overlay, which may only cover part of the screen, leaving the main layout running underneath.
+// Useful for components such as snackbars and toasts.
+pushOverlay: (LayoutComponent | LayoutExternalComponent) => void;
 
+// Removes an overlay
 popOverlay: ComponentId => void;
 
-
+// Opens a left sideMenu given the id of the menu or its container.
 openLeftMenu: ComponentId => void;
 
+// Closes a left sideMenu given the id of the menu or its container.
+// Curently affected by upstream bug #4636
 closeLeftMenu: ComponentId => void;
+```
 
+### Events
 
+```flow
 type CancelBind = () => void
 
+// Ainds component-specific events (appearance, disappearance, buttons) to methods on a specific component.
+// Automatically cleans up when component is removed from layout.
 bindLocalEvents: (Component & EventObserver) => CancelBind;
 
+// Binds a function to presses of a specific button on any component.
+// Requires cleanup, useful for hamburger menus when called from the menu.
 bindGlobalButtonPressed: (ButtonId, () => void) => CancelBind;
 
+// Binds a function to handle incoming deep links, must be called after each initialization.
+// If a deep link has occurred before this is called, the handler will be called immediately with the link,
+// thus it is safe to call this after an authentication screen completes without missing links.
 bindDeepLinks: (string => mixed) => CancelBind;
+```
 
+### Entry point
+
+```flow
+// The main entry point for your app.
+// Takes default layout options as well as an initialization routine which is called each time the app starts
+// (which might be multiple times as a js enviornment can be re-used if the previous run was closed with the back button).
+// The initialization routine should call setRootLayout(), either immediately of upon the result of a Promise.
 runNavigationApp: (?Options, () => mixed) => void;
 
 ```
 
+### Options helpers
 
-Options helpers
----------------
+A number of objects are included representing commonly-used sets of `Options`, which can be combined using spread syntax.
+
+```flow
+// Configures a top bar with a given title and possibly additional options
+titleBar: (title: string, options?: OptionsTopBar) => Options;
+
+// Sets the top bar to have an elevation of 0.
+// Useful if the component below it extends the header (such as with a tab bar).
+noShadow: OptionsTopBar;
+
+// Replaces the back button with menu button of the given Color and the key hamburgerMenuBtn.
+// Catch this button globally from your menu to open it.
+leftMenuButton: (?Color) => TopBarOptions;
+hamburgerMenuBtn: ButtonKey;
+
+// Replaces the set of right topBar buttons for the given component.
+setRightButtons: (ComponentId,  ButtonDef[]) => void{
+
+// Gives the back button a close icon.
+// Recommended on screens where exiting them might discard unsaved data.
+closeBackButton: OptionsTopBar
+
+// Semitransparent background and fade-in animation for a lighegox-style modal dialog
+modalLightBox: Options;
+
+```
