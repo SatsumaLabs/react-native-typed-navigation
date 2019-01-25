@@ -46,7 +46,7 @@ ButtonKey: ?string => ButtonId;
 
 ### Options
 
-```flow
+```jsx
 // Options type as described in the the react-native-navigation docs.
 //All key and intent fields require their correct types from the above section.
 type Options = {|...|};
@@ -60,7 +60,7 @@ setDefaultOptions: Options => void;
 
 ### Layouts
 
-```flow
+```jsx
 // Navigation layouts as described by the react-native-navigation docs.
 // The return value on Intent() is a subtype of this type.
 type Layout = {|...|};
@@ -117,7 +117,7 @@ closeLeftMenu: ComponentId => void;
 
 ### Events
 
-```flow
+```jsx
 type CancelBind = () => void
 
 // Ainds component-specific events (appearance, disappearance, buttons) to methods on a specific component.
@@ -136,7 +136,7 @@ bindDeepLinks: (string => mixed) => CancelBind;
 
 ### Entry point
 
-```flow
+```jsx
 // The main entry point for your app.
 // Takes default layout options as well as an initialization routine which is called each time the app starts
 // (which might be multiple times as a js enviornment can be re-used if the previous run was closed with the back button).
@@ -148,7 +148,7 @@ runNavigationApp: (?Options, () => mixed) => void;
 
 A number of objects are included representing commonly-used sets of `Options`, which can be combined using spread syntax.
 
-```flow
+```jsx
 // Configures a top bar with a given title and possibly additional options
 titleBar: (title: string, options?: OptionsTopBar) => Options;
 
