@@ -6,14 +6,13 @@ This package provides [flow](https://flow.org/) integration for [react-native-na
 Keys and Intents
 ----------------
 
-The biggest difference from the original API is the signature of `registerComponent`. In the original version, it takes a string key and a component generator, and the provided key is then used to refer to the component later.
-This was refactored so that it takes a component and returns a unique key (whose representation contains the component's name for debugging purposes) of an opaque type tagged the type of props the component requires, giving it a type equivalent (as the following is only valid in flow ≥0.89) to
+The biggest difference from the original API is the signature of `registerComponent`. In react-native-navigation, it takes a unique string key plus a component provider, and returns nothing.  The provided key is then used to refer to the component when creating layouts. With such a signature, it is impossible to tie the type of the key to the type of the component due to incorrect variance. The wrapped function has a type equivalent (as the following is only valid in flow ≥0.89) to
 
 ```ts
 registerComponent: <Props>(AbstractComponent<{...Props, componentId: CommponentId}>) => ComponentClassKey<Props>
 ```
 
-These `ComponentClassKey`s can be combined with their respective props by `Intent()` (or the helpers which call it) to define a `ComponentIntent`, this library's equivalent of a `React.Element` (an opaque type which witnesses that the props and key match in type) which is used to define navigation `Layout`s, which are otherwise the same as in `react-native-navigation`.
+In the wrapper, this function refactored so that it takes a component and returns a unique key (whose representation contains the component's name for debugging purposes) to create layouts with. This key is of the opaque type `ComponentClassKey<-Props>` which witnesses the type of props required by the component and must be matched by a `passProps` object of that type by `Intent()` (or the helpers which calls it). This creates an object of another opaque type `ComponentIntent` which witnesses the type check, (similar to how `React.Element` witnesses the check done by `createElement`), which replaces the untypped `{name, passProps}` objects in navigation `Layout`s, which are otherwise the same as in `react-native-navigation`. The wrapped function has a type equivalent (as the following is only valid in flow ≥0.89) to
 
 A number of other identifier types are given their own opaque types to prevent accidental mixing with ordinary strings. Component instance IDs are given their own type `ComponentId` and are wither received through a `componentId` prop or generated globally with the function `makeStaticComponentId(string)`. These static IDs are useful for components such as the root stack which must be manipulated from outside their own hierarchy, such as a main stack which gets manipulated by its sibling in a `sideMenu` layout.
 
@@ -29,6 +28,7 @@ Function reference
 makeStaticComponentId: string => StaticComponentId;
 
 // Registers a component for use in navigation layouts and returns its key
+// Actual type is a much messier version of this compatible with earlier flow versions.
 registerComponent: <Props>(AbstractComponent<{...Props, componentId: CommponentId}>) => ComponentClassKey<Props>;
 
 // Applies a component key to props and to create a Layout containing an intent
@@ -168,6 +168,6 @@ setRightButtons: (ComponentId,  ButtonDef[]) => void;
 // Recommended on screens where exiting them might discard unsaved data.
 closeBackButton: OptionsTopBar
 
-// Semitransparent background and fade-in animation for a lighegox-style modal dialog
+// Semitransparent background and fade-in animation for a lightbox-style modal dialog
 modalLightBox: Options;
 ```
