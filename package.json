@@ -1,9 +1,9 @@
 {
     "name": "react-native-typed-navigation",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Wrapper for react-native-navigation providing a simplified API and typesafe references",
     "main": "index.js",
-    "files": ["src/*.js"],
+    "files": ["src/*.js", "icons/*.png"],
     "author": "George Steel <george.steel@gmail.com>",
     "license": "MIT",
     "peerDependencies": {
